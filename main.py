@@ -37,7 +37,7 @@ async def index(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="index.html",
-        context={"message": "Hello World, from Claude!"}
+        context={"message": "Hello World - from Claude!"}
     )
 
 
