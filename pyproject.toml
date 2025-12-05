@@ -1,0 +1,12 @@
+[project]
+name = "render-app"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "duckdb>=1.4.2",
+    "fastapi>=0.123.9",
+    "jinja2>=3.1.6",
+    "uvicorn[standard]>=0.38.0",
+]
