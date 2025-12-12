@@ -90,10 +90,9 @@ async def save_recipe(
     notes_value = notes.strip() if notes.strip() else None
 
     create_recipe(name=recipe_name, cuisine_id=cuisine_id, urls=urls, tags=tag_list, notes=notes_value)
-    return templates.TemplateResponse(
-        request=request,
-        name="recipes/partials/save_success.html",
-    )
+    response = HTMLResponse(content="")
+    response.headers["HX-Redirect"] = "/"
+    return response
 
 
 # URL management (static path before dynamic)
