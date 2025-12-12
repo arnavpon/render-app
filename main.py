@@ -2,9 +2,11 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-import duckdb
 
-app = FastAPI(title="Render App")
+from app.database import init_db
+from app.recipes.router import router as recipes_router
+
+app = FastAPI(title="Kitchen Companion")
 
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -12,17 +14,8 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # Setup templates
 templates = Jinja2Templates(directory="templates")
 
-
-def get_db_connection():
-    """Get a DuckDB connection."""
-    return duckdb.connect("app.db")
-
-
-def init_db():
-    """Initialize the database with required tables."""
-    conn = get_db_connection()
-    # Add your table creation here as needed
-    conn.close()
+# Include routers
+app.include_router(recipes_router)
 
 
 @app.on_event("startup")

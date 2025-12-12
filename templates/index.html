@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Render App</title>
+    <title>Kitchen Companion</title>
     <!-- Bulma CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
     <style>
@@ -22,8 +22,16 @@
                     {{ message }}
                 </h1>
                 <p class="subtitle">
-                    Built with FastAPI, HTMX, Bulma CSS, and DuckDB
+                    Your all-in-one cooking companion
                 </p>
+                <div class="buttons is-centered mt-5">
+                    <a href="/recipes/add" class="button is-light is-large">
+                        Add Recipe
+                    </a>
+                    <a href="/recipes" class="button is-light is-large is-outlined">
+                        View Recipes
+                    </a>
+                </div>
             </div>
         </div>
     </section>

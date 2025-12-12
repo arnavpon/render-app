@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Recipe - Kitchen Companion</title>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+    </style>
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li class="is-active"><a aria-current="page">Add Recipe</a></li>
+                </ul>
+            </nav>
+            
+            <h1 class="title">Add a New Recipe</h1>
+            <p class="subtitle">Paste recipe text or provide a URL</p>
+            
+            <div class="box">
+                <div class="tabs is-boxed">
+                    <ul>
+                        <li class="is-active" hx-get="/recipes/add/form/text" hx-target="#form-container" hx-swap="innerHTML">
+                            <a>Paste Text</a>
+                        </li>
+                        <li hx-get="/recipes/add/form/url" hx-target="#form-container" hx-swap="innerHTML">
+                            <a>From URL</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div id="form-container">
+                    <!-- Text form loaded by default -->
+                    <form>
+                        <div class="field">
+                            <label class="label">Recipe Text</label>
+                            <div class="control">
+                                <textarea class="textarea" name="recipe_text" rows="10" 
+                                    placeholder="Paste your recipe here..."></textarea>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button type="submit" class="button is-primary">
+                                    Parse Recipe
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

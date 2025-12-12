@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Recipes - Kitchen Companion</title>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+    </style>
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li class="is-active"><a aria-current="page">My Recipes</a></li>
+                </ul>
+            </nav>
+
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <h1 class="title">My Recipes</h1>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="level-item">
+                        <a href="/recipes/add" class="button is-primary">Add Recipe</a>
+                    </div>
+                </div>
+            </div>
+
+            {% if recipes %}
+            <div class="box">
+                <table class="table is-fullwidth is-hoverable">
+                    <thead>
+                        <tr>
+                            <th>URL</th>
+                            <th>Added</th>
+                            <th style="width: 100px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for recipe in recipes %}
+                        <tr id="recipe-{{ recipe.id }}">
+                            <td>
+                                <a href="{{ recipe.url }}" target="_blank" rel="noopener noreferrer">
+                                    {{ recipe.url | truncate(60) }}
+                                </a>
+                            </td>
+                            <td>{{ recipe.created_at }}</td>
+                            <td>
+                                <button
+                                    class="button is-small is-danger is-outlined"
+                                    hx-delete="/recipes/{{ recipe.id }}"
+                                    hx-target="#recipe-{{ recipe.id }}"
+                                    hx-swap="outerHTML"
+                                    hx-confirm="Delete this recipe?">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="box has-text-centered">
+                <p class="is-size-5 has-text-grey">No recipes saved yet.</p>
+                <a href="/recipes/add" class="button is-primary mt-4">Add Your First Recipe</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</body>
+</html>

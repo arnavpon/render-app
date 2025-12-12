@@ -13,6 +13,7 @@ RUN uv sync --frozen --no-dev
 
 # Copy application code
 COPY main.py ./
+COPY app/ ./app/
 COPY templates/ ./templates/
 COPY static/ ./static/
 

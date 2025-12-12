@@ -7,3 +7,9 @@ services:
     envVars:
       - key: PORT
         value: 8000
+      # Turso credentials - set these in Render Dashboard (not here)
+      # sync: false means the value must be set manually in the dashboard
+      - key: TURSO_DATABASE_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false

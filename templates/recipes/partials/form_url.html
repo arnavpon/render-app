@@ -1,0 +1,17 @@
+<form hx-post="/recipes" hx-target="#form-result" hx-swap="innerHTML">
+    <div class="field">
+        <label class="label">Recipe URL</label>
+        <div class="control">
+            <input class="input" type="url" name="recipe_url" required
+                placeholder="https://example.com/recipe">
+        </div>
+    </div>
+    <div class="field">
+        <div class="control">
+            <button type="submit" class="button is-primary">
+                Save Recipe
+            </button>
+        </div>
+    </div>
+    <div id="form-result"></div>
+</form>
