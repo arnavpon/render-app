@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.name }} - Kitchen Companion</title>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .editable:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+        .url-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+        .url-item a {
+            flex: 1;
+            word-break: break-all;
+        }
+    </style>
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li class="is-active"><a aria-current="page">{{ recipe.name }}</a></li>
+                </ul>
+            </nav>
+
+            <div class="box">
+                <!-- Recipe Name -->
+                <div class="field" id="name-field">
+                    <label class="label">Recipe Name</label>
+                    <div class="control">
+                        <span class="editable title is-4"
+                            hx-get="/recipes/{{ recipe.id }}/edit/name"
+                            hx-target="#name-field"
+                            hx-swap="innerHTML">
+                            {{ recipe.name }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Cuisine -->
+                <div class="field" id="cuisine-field">
+                    <label class="label">Cuisine</label>
+                    <div class="control">
+                        <span class="editable"
+                            hx-get="/recipes/{{ recipe.id }}/edit/cuisine"
+                            hx-target="#cuisine-field"
+                            hx-swap="innerHTML">
+                            {{ recipe.cuisine | capitalize }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                <div class="field" id="tags-field">
+                    <label class="label">Tags</label>
+                    <div class="control">
+                        {% if recipe.tags %}
+                        <div class="tags">
+                            {% for tag in recipe.tags %}
+                            <span class="tag is-info is-light">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <span class="has-text-grey-light">No tags</span>
+                        {% endif %}
+                        <button class="button is-small mt-2"
+                            hx-get="/recipes/{{ recipe.id }}/edit/tags"
+                            hx-target="#tags-field"
+                            hx-swap="innerHTML">
+                            Edit Tags
+                        </button>
+                    </div>
+                </div>
+
+                <!-- URLs -->
+                <div class="field">
+                    <label class="label">Recipe URLs</label>
+                    <div id="url-list">
+                        {% include "recipes/partials/url_list.html" %}
+                    </div>
+
+                    <!-- Add URL form -->
+                    <div class="mt-3">
+                        <form hx-post="/recipes/{{ recipe.id }}/urls"
+                              hx-target="#url-list"
+                              hx-swap="innerHTML">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input class="input" type="url" name="url" placeholder="Add URL" required>
+                                </div>
+                                <div class="control">
+                                    <input class="input" type="text" name="label" placeholder="Label (optional)" style="width: 150px;">
+                                </div>
+                                <div class="control">
+                                    <button type="submit" class="button is-primary">Add URL</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="field" id="notes-field">
+                    <label class="label">Notes</label>
+                    <div class="control">
+                        <div class="editable"
+                            hx-get="/recipes/{{ recipe.id }}/edit/notes"
+                            hx-target="#notes-field"
+                            hx-swap="innerHTML">
+                            {% if recipe.notes %}
+                            <p style="white-space: pre-wrap;">{{ recipe.notes }}</p>
+                            {% else %}
+                            <p class="has-text-grey-light">Click to add notes...</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Metadata -->
+                <div class="field">
+                    <p class="has-text-grey">
+                        <small>Added: {{ recipe.created_at }}</small>
+                    </p>
+                </div>
+
+                <!-- Actions -->
+                <div class="field is-grouped mt-5">
+                    <div class="control">
+                        <a href="/" class="button is-light">Back to Recipes</a>
+                    </div>
+                    <div class="control">
+                        <form hx-delete="/recipes/{{ recipe.id }}"
+                              hx-confirm="Delete this recipe?"
+                              hx-target="body">
+                            <button type="submit" class="button is-danger">Delete Recipe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

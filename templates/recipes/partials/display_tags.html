@@ -1,0 +1,18 @@
+<label class="label">Tags</label>
+<div class="control">
+    {% if recipe.tags %}
+    <div class="tags">
+        {% for tag in recipe.tags %}
+        <span class="tag is-info is-light">{{ tag }}</span>
+        {% endfor %}
+    </div>
+    {% else %}
+    <span class="has-text-grey-light">No tags</span>
+    {% endif %}
+    <button class="button is-small mt-2"
+        hx-get="/recipes/{{ recipe.id }}/edit/tags"
+        hx-target="#tags-field"
+        hx-swap="innerHTML">
+        Edit Tags
+    </button>
+</div>

@@ -1,6 +1,6 @@
 # Render App
 
-A web application built with FastAPI, HTMX, Bulma CSS, and DuckDB.
+A web application built with FastAPI, HTMX, Bulma CSS, and SQLite.
 
 ## Tech Stack
 
@@ -8,6 +8,7 @@ A web application built with FastAPI, HTMX, Bulma CSS, and DuckDB.
 - **Frontend**: HTMX for reactivity, Bulma CSS for styling
 - **Database**: DuckDB (embedded analytical database)
 - **Package Manager**: uv
+- Intentionally does NOT use javascript
 
 ## Project Structure
 
@@ -64,4 +65,4 @@ The app is configured for deployment on Render via `render.yaml`. Push to your c
 
 ## Database
 
-DuckDB is used as an embedded database. The database file `app.db` is created automatically on startup. Add table creation logic in the `init_db()` function in `main.py`.
+Uses hosted SQLite database on Turso

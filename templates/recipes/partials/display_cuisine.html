@@ -1,0 +1,9 @@
+<label class="label">Cuisine</label>
+<div class="control">
+    <span class="editable"
+        hx-get="/recipes/{{ recipe.id }}/edit/cuisine"
+        hx-target="#cuisine-field"
+        hx-swap="innerHTML">
+        {{ recipe.cuisine | capitalize }}
+    </span>
+</div>

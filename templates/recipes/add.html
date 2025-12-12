@@ -23,41 +23,77 @@
                     <li class="is-active"><a aria-current="page">Add Recipe</a></li>
                 </ul>
             </nav>
-            
+
             <h1 class="title">Add a New Recipe</h1>
-            <p class="subtitle">Paste recipe text or provide a URL</p>
-            
+            <p class="subtitle">Save a recipe from a URL</p>
+
             <div class="box">
-                <div class="tabs is-boxed">
-                    <ul>
-                        <li class="is-active" hx-get="/recipes/add/form/text" hx-target="#form-container" hx-swap="innerHTML">
-                            <a>Paste Text</a>
-                        </li>
-                        <li hx-get="/recipes/add/form/url" hx-target="#form-container" hx-swap="innerHTML">
-                            <a>From URL</a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div id="form-container">
-                    <!-- Text form loaded by default -->
-                    <form>
-                        <div class="field">
-                            <label class="label">Recipe Text</label>
-                            <div class="control">
-                                <textarea class="textarea" name="recipe_text" rows="10" 
-                                    placeholder="Paste your recipe here..."></textarea>
-                            </div>
+                <form hx-post="/recipes" hx-target="#form-result" hx-swap="innerHTML">
+                    <div class="field">
+                        <label class="label">Recipe Name <span class="has-text-danger">*</span></label>
+                        <div class="control">
+                            <input class="input" type="text" name="recipe_name" required
+                                placeholder="e.g., Grandma's Chicken Curry">
                         </div>
-                        <div class="field">
-                            <div class="control">
-                                <button type="submit" class="button is-primary">
-                                    Parse Recipe
-                                </button>
-                            </div>
+                        <p class="help">Give your recipe a memorable name</p>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Recipe URL</label>
+                        <div class="control">
+                            <input class="input" type="url" name="recipe_url"
+                                placeholder="https://example.com/recipe (optional)">
                         </div>
-                    </form>
-                </div>
+                        <p class="help">You can add more URLs after creating the recipe</p>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Cuisine Type <span class="has-text-danger">*</span></label>
+                        <div class="control">
+                            <input class="input" type="text" name="cuisine" required list="cuisine-list"
+                                placeholder="e.g., Italian, Indian, Mexican">
+                        </div>
+                        <datalist id="cuisine-list">
+                            {% for c in cuisines %}
+                            <option value="{{ c.name | capitalize }}">
+                            {% endfor %}
+                        </datalist>
+                        <p class="help">Start typing to see existing cuisines or add a new one</p>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Tags</label>
+                        <div class="control">
+                            <input class="input" type="text" name="tags" list="tag-list"
+                                placeholder="e.g., vegan, quick, weeknight">
+                        </div>
+                        <datalist id="tag-list">
+                            {% for t in tags %}
+                            <option value="{{ t.name }}">
+                            {% endfor %}
+                        </datalist>
+                        <p class="help">Optional - separate multiple tags with commas</p>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">Notes</label>
+                        <div class="control">
+                            <textarea class="textarea" name="notes" rows="3"
+                                placeholder="Any personal notes about this recipe (optional)"></textarea>
+                        </div>
+                        <p class="help">Tips, modifications, or reminders for yourself</p>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <button type="submit" class="button is-primary">
+                                Save Recipe
+                            </button>
+                            <a href="/" class="button is-light">Cancel</a>
+                        </div>
+                    </div>
+                    <div id="form-result"></div>
+                </form>
             </div>
         </div>
     </section>

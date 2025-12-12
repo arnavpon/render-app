@@ -1,0 +1,9 @@
+<label class="label">Recipe Name</label>
+<div class="control">
+    <span class="editable title is-4"
+        hx-get="/recipes/{{ recipe.id }}/edit/name"
+        hx-target="#name-field"
+        hx-swap="innerHTML">
+        {{ recipe.name }}
+    </span>
+</div>

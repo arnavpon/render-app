@@ -1,0 +1,16 @@
+<label class="label">Recipe Name</label>
+<form hx-patch="/recipes/{{ recipe.id }}/name"
+      hx-target="#name-field"
+      hx-swap="innerHTML">
+    <div class="field has-addons">
+        <div class="control is-expanded">
+            <input class="input" type="text" name="name" value="{{ recipe.name }}" required autofocus>
+        </div>
+        <div class="control">
+            <button type="submit" class="button is-primary">Save</button>
+        </div>
+        <div class="control">
+            <a href="/recipes/{{ recipe.id }}" class="button">Cancel</a>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,60 @@
+{% if recipes %}
+{% set current_cuisine = namespace(value='') %}
+{% for recipe in recipes %}
+    {% if recipe.cuisine != current_cuisine.value %}
+        {% if current_cuisine.value != '' %}
+        </div><!-- end previous cuisine section -->
+        {% endif %}
+        {% set current_cuisine.value = recipe.cuisine %}
+        <div class="cuisine-section">
+            <h2 class="title is-4 cuisine-header">{{ recipe.cuisine | capitalize }}</h2>
+    {% endif %}
+
+    <a href="/recipes/{{ recipe.id }}" class="box recipe-card" id="recipe-{{ recipe.id }}" style="display: block; color: inherit; text-decoration: none;">
+        <article class="media">
+            <div class="media-content">
+                <div class="content">
+                    <p>
+                        <strong class="title is-5">{{ recipe.name }}</strong>
+                        <br>
+                        {% if recipe.urls %}
+                        <span class="url-list">
+                            {% for url_item in recipe.urls %}
+                            <span class="has-text-link">
+                                {{ url_item.label or url_item.url | truncate(50) }}
+                            </span>
+                            {% endfor %}
+                        </span>
+                        {% else %}
+                        <span class="has-text-grey-light">No URLs added</span>
+                        {% endif %}
+                        <br>
+                        <small class="has-text-grey">Added: {{ recipe.created_at }}</small>
+                    </p>
+                    {% if recipe.tags %}
+                    <div class="tags mt-2">
+                        {% for tag in recipe.tags %}
+                        <span class="tag is-info is-light">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="media-right">
+                <button class="button is-small is-danger is-outlined"
+                    hx-delete="/recipes/{{ recipe.id }}"
+                    hx-target="#recipe-{{ recipe.id }}"
+                    hx-swap="outerHTML"
+                    hx-confirm="Delete this recipe?">
+                    Delete
+                </button>
+            </div>
+        </article>
+    </a>
+{% endfor %}
+</div><!-- end last cuisine section -->
+{% else %}
+<div class="has-text-centered py-5">
+    <p class="has-text-grey">No recipes found{% if search_query %} for "{{ search_query }}"{% endif %}.</p>
+</div>
+{% endif %}

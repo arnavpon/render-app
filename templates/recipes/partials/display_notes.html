@@ -1,0 +1,13 @@
+<label class="label">Notes</label>
+<div class="control">
+    <div class="editable"
+        hx-get="/recipes/{{ recipe.id }}/edit/notes"
+        hx-target="#notes-field"
+        hx-swap="innerHTML">
+        {% if recipe.notes %}
+        <p style="white-space: pre-wrap;">{{ recipe.notes }}</p>
+        {% else %}
+        <p class="has-text-grey-light">Click to add notes...</p>
+        {% endif %}
+    </div>
+</div>

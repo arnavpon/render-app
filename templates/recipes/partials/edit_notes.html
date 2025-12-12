@@ -1,0 +1,19 @@
+<label class="label">Notes</label>
+<form hx-patch="/recipes/{{ recipe.id }}/notes"
+      hx-target="#notes-field"
+      hx-swap="innerHTML">
+    <div class="field">
+        <div class="control">
+            <textarea class="textarea" name="notes" rows="4"
+                      placeholder="Add notes about this recipe..." autofocus>{{ recipe.notes or '' }}</textarea>
+        </div>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            <button type="submit" class="button is-primary">Save</button>
+        </div>
+        <div class="control">
+            <a href="/recipes/{{ recipe.id }}" class="button">Cancel</a>
+        </div>
+    </div>
+</form>

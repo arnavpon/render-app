@@ -1,0 +1,14 @@
+{% for url_item in recipe.urls %}
+<div class="url-item" id="url-{{ url_item.id }}">
+    <a href="{{ url_item.url }}" target="_blank" rel="noopener noreferrer">
+        {{ url_item.label or url_item.url }}
+    </a>
+    <button class="button is-small is-danger is-outlined"
+        hx-delete="/recipes/urls/{{ url_item.id }}"
+        hx-target="#url-{{ url_item.id }}"
+        hx-swap="outerHTML"
+        hx-confirm="Remove this URL?">
+        Remove
+    </button>
+</div>
+{% endfor %}

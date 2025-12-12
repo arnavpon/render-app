@@ -1,0 +1,22 @@
+<label class="label">Cuisine</label>
+<form hx-patch="/recipes/{{ recipe.id }}/cuisine"
+      hx-target="#cuisine-field"
+      hx-swap="innerHTML">
+    <div class="field has-addons">
+        <div class="control is-expanded">
+            <input class="input" type="text" name="cuisine" value="{{ recipe.cuisine | capitalize }}"
+                   list="cuisine-list" required autofocus>
+            <datalist id="cuisine-list">
+                {% for c in cuisines %}
+                <option value="{{ c.name | capitalize }}">
+                {% endfor %}
+            </datalist>
+        </div>
+        <div class="control">
+            <button type="submit" class="button is-primary">Save</button>
+        </div>
+        <div class="control">
+            <a href="/recipes/{{ recipe.id }}" class="button">Cancel</a>
+        </div>
+    </div>
+</form>

@@ -23,15 +23,57 @@ def get_db_connection():
 def init_db():
     """Initialize the database with required tables."""
     conn = get_db_connection()
-    # Create recipes table
+
+    # Create cuisines table
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS cuisines (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE
+        )
+    """)
+
+    # Create tags table
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS tags (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE
+        )
+    """)
+
+    # Create recipes table (without URL - URLs are in separate table)
     conn.execute("""
         CREATE TABLE IF NOT EXISTS recipes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            url TEXT NOT NULL,
-            title TEXT,
+            name TEXT NOT NULL,
+            cuisine_id INTEGER NOT NULL,
             notes TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (cuisine_id) REFERENCES cuisines(id)
         )
     """)
+
+    # Create recipe_urls table for multiple URLs per recipe
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS recipe_urls (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            recipe_id INTEGER NOT NULL,
+            url TEXT NOT NULL,
+            label TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE
+        )
+    """)
+
+    # Create recipe_tags junction table
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS recipe_tags (
+            recipe_id INTEGER NOT NULL,
+            tag_id INTEGER NOT NULL,
+            PRIMARY KEY (recipe_id, tag_id),
+            FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON DELETE CASCADE,
+            FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+        )
+    """)
+
     conn.commit()
     conn.close()

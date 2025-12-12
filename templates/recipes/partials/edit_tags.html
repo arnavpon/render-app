@@ -1,0 +1,27 @@
+<label class="label">Tags</label>
+<form hx-patch="/recipes/{{ recipe.id }}/tags"
+      hx-target="#tags-field"
+      hx-swap="innerHTML">
+    <div class="field">
+        <div class="control">
+            <input class="input" type="text" name="tags"
+                   value="{{ recipe.tags | join(', ') }}"
+                   placeholder="Enter tags separated by commas (e.g., vegan, quick, weeknight)"
+                   list="tag-list" autofocus>
+            <datalist id="tag-list">
+                {% for t in all_tags %}
+                <option value="{{ t.name }}">
+                {% endfor %}
+            </datalist>
+        </div>
+        <p class="help">Separate multiple tags with commas</p>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+            <button type="submit" class="button is-primary">Save</button>
+        </div>
+        <div class="control">
+            <a href="/recipes/{{ recipe.id }}" class="button">Cancel</a>
+        </div>
+    </div>
+</form>

@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 
 from app.database import init_db
 from app.recipes.router import router as recipes_router
+from app.recipes.service import get_all_cuisines, get_all_recipes, get_all_tags
 
 app = FastAPI(title="Kitchen Companion")
 
@@ -26,11 +27,14 @@ async def startup_event():
 
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
-    """Render the main page."""
+    """Render the recipe list as the homepage."""
+    recipes = get_all_recipes()
+    cuisines = get_all_cuisines()
+    tags = get_all_tags()
     return templates.TemplateResponse(
         request=request,
-        name="index.html",
-        context={"message": "Hello World - from Claude!"}
+        name="recipes/list.html",
+        context={"recipes": recipes, "cuisines": cuisines, "tags": tags, "search_query": None},
     )
 
 

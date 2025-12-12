@@ -1,0 +1,47 @@
+<div class="box recipe-card" id="recipe-{{ recipe.id }}"
+    data-name="{{ recipe.name | lower }}"
+    data-cuisine="{{ recipe.cuisine }}"
+    data-tags="{{ recipe.tags | join(',') | lower }}"
+    onclick="window.location='/recipes/{{ recipe.id }}'">
+    <article class="media">
+        <div class="media-content">
+            <div class="content">
+                <p>
+                    <strong class="recipe-name title is-5">{{ recipe.name }}</strong>
+                    <br>
+                    {% if recipe.urls %}
+                    <span class="url-list">
+                        {% for url_item in recipe.urls %}
+                        <a href="{{ url_item.url }}" target="_blank" rel="noopener noreferrer"
+                           class="has-text-link" onclick="event.stopPropagation()">
+                            {{ url_item.label or url_item.url | truncate(50) }}
+                        </a>
+                        {% endfor %}
+                    </span>
+                    {% else %}
+                    <span class="has-text-grey-light">No URLs added</span>
+                    {% endif %}
+                    <br>
+                    <small class="has-text-grey">Added: {{ recipe.created_at }}</small>
+                </p>
+                {% if recipe.tags %}
+                <div class="tags mt-2">
+                    {% for tag in recipe.tags %}
+                    <span class="tag is-info is-light">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="media-right">
+            <button class="button is-small is-danger is-outlined"
+                hx-delete="/recipes/{{ recipe.id }}"
+                hx-target="#recipe-{{ recipe.id }}"
+                hx-swap="outerHTML"
+                hx-confirm="Delete this recipe?"
+                onclick="event.stopPropagation()">
+                Delete
+            </button>
+        </div>
+    </article>
+</div>
